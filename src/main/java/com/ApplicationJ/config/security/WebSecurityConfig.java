@@ -32,12 +32,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private JwtRequestFilter jwtRequestFilter;
 	
-	private List<String> permittedList = new ArrayList<String>();
+	private String[] pathArray = null;
 
 	public WebSecurityConfig() {
-		permittedList.add("/auth/*");
-		permittedList.add("/users/add");
-		permittedList.add("/swagger-ui.html*");
+		pathArray = new String[]{
+				"/auth/token",
+				"/users/add",
+				"/swagger-ui.html*"
+				};
 	}
 
 	@Autowired
@@ -59,7 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.csrf().disable().authorizeRequests()
-		.antMatchers(permittedList.toString()).permitAll().anyRequest().authenticated()
+		.antMatchers(pathArray).permitAll().anyRequest().authenticated()
 		.and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
