@@ -1,8 +1,5 @@
 package com.ApplicationJ.config.security;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,9 +34,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public WebSecurityConfig() {
 		pathArray = new String[]{
 				"/auth/token",
+				"/welcome/**",
 				"/users/add",
-				"/swagger-ui.html*"
-				};
+				"/swagger-ui.html",
+				"/webjars/**",
+				"/v2/**",
+				"/swagger-resources/**"};
 	}
 
 	@Autowired

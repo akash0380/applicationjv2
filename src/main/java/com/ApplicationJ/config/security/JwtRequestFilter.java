@@ -1,6 +1,8 @@
 package com.ApplicationJ.config.security;
 
 import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.Properties;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -8,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +22,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.ApplicationJ.config.ApplicationConstants;
 import com.ApplicationJ.service.impl.UsersServiceImpl;
+import com.ApplicationJ.utility.SupportUtility;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
@@ -33,15 +39,22 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
 
+		Properties props = PropertiesLoaderUtils.loadProperties(new ClassPathResource(ApplicationConstants.profile0));
+		if (props.getProperty(ApplicationConstants.activeProfile).equals(ApplicationConstants.profile1Name)) {
+			Resource resource = new ClassPathResource(ApplicationConstants.profile1);
+			props = PropertiesLoaderUtils.loadProperties(resource);
+			SupportUtility.logger.debug(props.getProperty(ApplicationConstants.prop1Var) + " " + request.getRequestURI());
+		}
+
 		final String jwtToken = request.getHeader(ApplicationConstants.authKey);
 		String username = null;
-			try {
-				username = jwtTokenUtil.getUsernameFromToken(jwtToken);
-			} catch (IllegalArgumentException e) {
-				System.out.println("Unable to get JWT Token");
-			} catch (ExpiredJwtException e) {
-				System.out.println("JWT Token has expired");
-			}
+		try {
+			username = jwtTokenUtil.getUsernameFromToken(jwtToken);
+		} catch (IllegalArgumentException e) {
+			System.out.println("Unable to get JWT Token");
+		} catch (ExpiredJwtException e) {
+			System.out.println("JWT Token has expired");
+		}
 
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
