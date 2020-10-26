@@ -5,11 +5,13 @@ public class ApplicationConstants {
 	//Core
 	public static final String authKey="AuthKey";
 	public static final String activeProfile="spring.profiles.active";
-	public static final String profile0="/application.properties";
-	public static final String profile1="/application-dev.properties";
-	public static final String profile1Name="dev";	
-	public static final String prop1Var="application.name";	
+	public static final String profile="/application.properties";
+	public static final String profileDev="/application-dev.properties";
+	public static final String profile1NameDev="dev";	
+	public static final String propDev__application_name="application.name";
 	
+	//CoreConfig
+	public static final boolean application_security_flag=false;	
 	
 	//home controller
 	public static final String WEl001="home";

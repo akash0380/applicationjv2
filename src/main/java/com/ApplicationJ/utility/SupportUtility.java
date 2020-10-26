@@ -13,4 +13,6 @@ public interface SupportUtility {
 	
 	Response responseBuilder(int status, String message, Object data, String route);
 
+	String getValue(String popName);
+
 }

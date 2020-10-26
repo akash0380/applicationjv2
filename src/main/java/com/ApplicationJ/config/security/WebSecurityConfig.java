@@ -15,6 +15,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.ApplicationJ.config.ApplicationConstants;
+import com.ApplicationJ.utility.SupportUtility;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -28,18 +31,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private JwtRequestFilter jwtRequestFilter;
-	
+
+	@Autowired
+	SupportUtility supportUtility;
+
 	private String[] pathArray = null;
 
 	public WebSecurityConfig() {
-		pathArray = new String[]{
-				"/auth/token",
-				"/welcome/**",
-				"/users/add",
-				"/swagger-ui.html",
-				"/webjars/**",
-				"/v2/**",
-				"/swagger-resources/**"};
+		if (ApplicationConstants.application_security_flag) {
+			pathArray = new String[] { "/auth/token", "/welcome/**", "/users/add", "/swagger-ui.html", "/webjars/**",
+					"/v2/**", "/swagger-resources/**" };
+		} else {
+			pathArray = new String[] { "/**" };
+		}
 	}
 
 	@Autowired
@@ -60,10 +64,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.csrf().disable().authorizeRequests()
-		.antMatchers(pathArray).permitAll().anyRequest().authenticated()
-		.and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
-		.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		httpSecurity.csrf().disable().authorizeRequests().antMatchers(pathArray).permitAll().anyRequest()
+				.authenticated().and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 }
