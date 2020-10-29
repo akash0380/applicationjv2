@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ApplicationJ.dao.SeverCredDao;
-import com.ApplicationJ.modelBO.ServerCredBO;
+import com.ApplicationJ.model.ServerCredBO;
 import com.ApplicationJ.service.ServerCredService;
 
 @Transactional

@@ -15,10 +15,10 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import com.ApplicationJ.dao.ext.UsersDaoExt;
-import com.ApplicationJ.modelBO.FoodBO;
-import com.ApplicationJ.modelBO.FoodTypeBO;
-import com.ApplicationJ.modelBO.StatusBO;
-import com.ApplicationJ.modelBO.UsersBO;
+import com.ApplicationJ.model.FoodBO;
+import com.ApplicationJ.model.FoodTypeBO;
+import com.ApplicationJ.model.StatusBO;
+import com.ApplicationJ.model.UsersBO;
 
 @Repository
 public class UsersDaoImpl implements UsersDaoExt {

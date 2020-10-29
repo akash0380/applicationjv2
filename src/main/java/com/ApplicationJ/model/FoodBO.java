@@ -1,4 +1,4 @@
-package com.ApplicationJ.modelBO;
+package com.ApplicationJ.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

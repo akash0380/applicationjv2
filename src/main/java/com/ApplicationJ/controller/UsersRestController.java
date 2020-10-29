@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ApplicationJ.config.ApplicationConstants;
 import com.ApplicationJ.config.Response;
-import com.ApplicationJ.modelBO.FoodBO;
-import com.ApplicationJ.modelBO.FoodTypeBO;
-import com.ApplicationJ.modelBO.StatusBO;
-import com.ApplicationJ.modelBO.UsersBO;
+import com.ApplicationJ.model.FoodBO;
+import com.ApplicationJ.model.FoodTypeBO;
+import com.ApplicationJ.model.StatusBO;
+import com.ApplicationJ.model.UsersBO;
 import com.ApplicationJ.service.UsersService;
 import com.ApplicationJ.utility.SupportUtility;
 

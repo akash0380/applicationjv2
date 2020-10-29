@@ -1,8 +1,8 @@
-package com.ApplicationJ.modelBO;
+package com.ApplicationJ.model;
 
 import java.io.Serializable;
 
-public class JwtRequest implements Serializable {
+public class JwtRequestBO implements Serializable {
 
 	private static final long serialVersionUID = 5926468583005150707L;
 	
@@ -10,12 +10,12 @@ public class JwtRequest implements Serializable {
 	private String password;
 	
 	//need default constructor for JSON Parsing
-	public JwtRequest()
+	public JwtRequestBO()
 	{
 		
 	}
 
-	public JwtRequest(String username, String password) {
+	public JwtRequestBO(String username, String password) {
 		this.setUsername(username);
 		this.setPassword(password);
 	}

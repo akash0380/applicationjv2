@@ -2,10 +2,10 @@ package com.ApplicationJ.service;
 
 import java.util.List;
 
-import com.ApplicationJ.modelBO.FoodBO;
-import com.ApplicationJ.modelBO.FoodTypeBO;
-import com.ApplicationJ.modelBO.StatusBO;
-import com.ApplicationJ.modelBO.UsersBO;
+import com.ApplicationJ.model.FoodBO;
+import com.ApplicationJ.model.FoodTypeBO;
+import com.ApplicationJ.model.StatusBO;
+import com.ApplicationJ.model.UsersBO;
 
 public interface UsersService {
 

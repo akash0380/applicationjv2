@@ -2,7 +2,7 @@ package com.ApplicationJ.service;
 
 import java.util.List;
 
-import com.ApplicationJ.modelBO.ServerCredBO;
+import com.ApplicationJ.model.ServerCredBO;
 
 public interface ServerCredService {
 	

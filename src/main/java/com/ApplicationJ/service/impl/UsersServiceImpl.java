@@ -14,10 +14,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ApplicationJ.dao.UsersDao;
-import com.ApplicationJ.modelBO.FoodBO;
-import com.ApplicationJ.modelBO.FoodTypeBO;
-import com.ApplicationJ.modelBO.StatusBO;
-import com.ApplicationJ.modelBO.UsersBO;
+import com.ApplicationJ.model.FoodBO;
+import com.ApplicationJ.model.FoodTypeBO;
+import com.ApplicationJ.model.StatusBO;
+import com.ApplicationJ.model.UsersBO;
 import com.ApplicationJ.service.UsersService;
 
 @Transactional

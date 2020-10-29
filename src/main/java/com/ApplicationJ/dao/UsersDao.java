@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ApplicationJ.dao.ext.UsersDaoExt;
-import com.ApplicationJ.modelBO.UsersBO;
+import com.ApplicationJ.model.UsersBO;
 
 @Repository
 @Transactional

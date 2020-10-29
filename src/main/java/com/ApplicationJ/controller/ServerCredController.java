@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ApplicationJ.config.ApplicationConstants;
 import com.ApplicationJ.config.Response;
-import com.ApplicationJ.modelBO.ServerCredBO;
+import com.ApplicationJ.model.ServerCredBO;
 import com.ApplicationJ.service.ServerCredService;
 import com.ApplicationJ.utility.SupportUtility;
 
