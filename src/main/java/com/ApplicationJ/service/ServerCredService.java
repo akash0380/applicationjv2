@@ -3,15 +3,14 @@ package com.ApplicationJ.service;
 import java.util.List;
 
 import com.ApplicationJ.modelBO.ServerCredBO;
-import com.ApplicationJ.modelTO.ServerCredTO;
 
 public interface ServerCredService {
 	
-	List<ServerCredTO> getServerCredList();
+	List<ServerCredBO> getServerCredList();
 
-	ServerCredTO getServerCredById(int id);
+	ServerCredBO getServerCredById(int id);
 
-	ServerCredTO addServerCred(ServerCredBO serverCredBO);
+	ServerCredBO addServerCred(ServerCredBO serverCredBO);
 
-	ServerCredTO updateServerCred(ServerCredBO serverCredBO);
+	ServerCredBO updateServerCred(ServerCredBO serverCredBO);
 }

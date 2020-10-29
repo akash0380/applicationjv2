@@ -2,31 +2,30 @@ package com.ApplicationJ.service;
 
 import java.util.List;
 
+import com.ApplicationJ.modelBO.FoodBO;
+import com.ApplicationJ.modelBO.FoodTypeBO;
+import com.ApplicationJ.modelBO.StatusBO;
 import com.ApplicationJ.modelBO.UsersBO;
-import com.ApplicationJ.modelTO.FoodTO;
-import com.ApplicationJ.modelTO.FoodTypeTO;
-import com.ApplicationJ.modelTO.StatusTO;
-import com.ApplicationJ.modelTO.UsersTO;
 
 public interface UsersService {
 
-	List<UsersTO> getActiveUsers();
+	List<UsersBO> getActiveUsers();
 
 	UsersBO addUser(UsersBO userbo);
 
-	UsersTO getUsersById(int id);
+	UsersBO getUsersById(int id);
 
-	List<StatusTO> getStatusList();
+	List<StatusBO> getStatusList();
 
-	List<FoodTypeTO> getFoodTypeList();
+	List<FoodTypeBO> getFoodTypeList();
 
-	List<FoodTO> getFoodList();
+	List<FoodBO> getFoodList();
 
 	UsersBO updateUser(UsersBO userbo);
 
-	List<UsersTO> getActiveUsersNameEmail();
+	List<UsersBO> getActiveUsersNameEmail();
 
-	List<UsersTO> getTestGroupByList();
+	List<UsersBO> getTestGroupByList();
 
 
 }

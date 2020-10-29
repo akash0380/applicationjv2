@@ -100,7 +100,7 @@ public class UsersDaoImpl implements UsersDaoExt {
 	}
 	
 	@Override
-	public List<UsersBO> getActiveUserNameEmailList() {		
+	public List<UsersBO> getActiveUserNameEmailList() {
 		CriteriaBuilder queryBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<UsersBO> criteriaQuery = queryBuilder.createQuery(UsersBO.class);
 		Root<UsersBO> entityRoot = criteriaQuery.from(UsersBO.class);

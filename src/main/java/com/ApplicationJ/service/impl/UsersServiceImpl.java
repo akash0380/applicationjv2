@@ -18,10 +18,6 @@ import com.ApplicationJ.modelBO.FoodBO;
 import com.ApplicationJ.modelBO.FoodTypeBO;
 import com.ApplicationJ.modelBO.StatusBO;
 import com.ApplicationJ.modelBO.UsersBO;
-import com.ApplicationJ.modelTO.FoodTO;
-import com.ApplicationJ.modelTO.FoodTypeTO;
-import com.ApplicationJ.modelTO.StatusTO;
-import com.ApplicationJ.modelTO.UsersTO;
 import com.ApplicationJ.service.UsersService;
 
 @Transactional
@@ -30,9 +26,6 @@ public class UsersServiceImpl implements UserDetailsService, UsersService {
 
 	@Autowired
 	private UsersDao userDao;
-
-	@Autowired
-	private ModelMapper modelMapper;
 
 	@Autowired
 	private PasswordEncoder bcryptEncoder;
@@ -52,11 +45,11 @@ public class UsersServiceImpl implements UserDetailsService, UsersService {
 	}
 
 	@Override
-	public List<UsersTO> getActiveUsers() {
-		List<UsersTO> usersToList = new ArrayList<UsersTO>();
+	public List<UsersBO> getActiveUsers() {
+		List<UsersBO> UsersBOListReturn = new ArrayList<UsersBO>();
 		List<UsersBO> usersBoList = userDao.getActiveUsers();
 		usersBoList.stream().filter(usersBO -> usersBO.getStatus().getStatus_id() == 1).forEach(usersBO -> {
-			usersToList.add(modelMapper.map(usersBO, UsersTO.class));
+			UsersBOListReturn.add(usersBO);
 		});
 		/*
 		 * List<UsersBO> it = userDao.findAll(); it.forEach(e -> {
@@ -64,7 +57,7 @@ public class UsersServiceImpl implements UserDetailsService, UsersService {
 		 * logger.debug("testing round 2"); UsersBO user= userDao.getUserById(2);
 		 * logger.debug("data got from database "+user.getName());
 		 */
-		return usersToList;
+		return UsersBOListReturn;
 	}
 
 	@Override
@@ -74,9 +67,8 @@ public class UsersServiceImpl implements UserDetailsService, UsersService {
 	}
 
 	@Override
-	public UsersTO getUsersById(int id) {
-		UsersBO obj = userDao.getUserById(id);
-		return modelMapper.map(obj, UsersTO.class);
+	public UsersBO getUsersById(int id) {
+		return userDao.getUserById(id);
 	}
 
 	@Override
@@ -85,52 +77,27 @@ public class UsersServiceImpl implements UserDetailsService, UsersService {
 	}
 
 	@Override
-	public List<StatusTO> getStatusList() {
-		List<StatusTO> statusToList = new ArrayList<StatusTO>();
-		List<StatusBO> statusBOList = userDao.getStatusList();
-		statusBOList.forEach(statusBO -> {
-			statusToList.add(modelMapper.map(statusBO, StatusTO.class));
-		});
-		return statusToList;
+	public List<StatusBO> getStatusList() {
+		return userDao.getStatusList();
 	}
 
 	@Override
-	public List<FoodTypeTO> getFoodTypeList() {
-		List<FoodTypeTO> foodTypeList = new ArrayList<FoodTypeTO>();
-		List<FoodTypeBO> foodTypeBOList = userDao.getFoodTypeList();
-		foodTypeBOList.forEach(foodtypebo -> {
-			foodTypeList.add(modelMapper.map(foodtypebo, FoodTypeTO.class));
-		});
-		return foodTypeList;
+	public List<FoodTypeBO> getFoodTypeList() {
+		return userDao.getFoodTypeList();
 	}
 
 	@Override
-	public List<FoodTO> getFoodList() {
-		List<FoodTO> foodList = new ArrayList<FoodTO>();
-		List<FoodBO> foodBOList = userDao.getFoodList();
-		foodBOList.forEach(foodbo -> {
-			foodList.add(modelMapper.map(foodbo, FoodTO.class));
-		});
-		return foodList;
+	public List<FoodBO> getFoodList() {
+		return userDao.getFoodList();
 	}
 
 	@Override
-	public List<UsersTO> getTestGroupByList() {
-		List<UsersTO> usersToList = new ArrayList<UsersTO>();
-		List<UsersBO> usersBoList = userDao.getTestGroupBylList();
-		usersBoList.forEach(usersBO -> {
-			usersToList.add(modelMapper.map(usersBO, UsersTO.class));
-		});
-		return usersToList;
+	public List<UsersBO> getTestGroupByList() {
+		return userDao.getTestGroupBylList();
 	}
 
 	@Override
-	public List<UsersTO> getActiveUsersNameEmail() {
-		List<UsersTO> usersToList = new ArrayList<UsersTO>();
-		List<UsersBO> usersBoList = userDao.getActiveUserNameEmailList();
-		usersBoList.forEach(usersBO -> {
-			usersToList.add(modelMapper.map(usersBO, UsersTO.class));
-		});
-		return usersToList;
+	public List<UsersBO> getActiveUsersNameEmail() {
+		return userDao.getActiveUserNameEmailList();
 	}
 }

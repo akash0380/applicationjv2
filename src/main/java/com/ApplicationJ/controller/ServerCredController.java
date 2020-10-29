@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ApplicationJ.config.ApplicationConstants;
 import com.ApplicationJ.config.Response;
 import com.ApplicationJ.modelBO.ServerCredBO;
-import com.ApplicationJ.modelTO.ServerCredTO;
 import com.ApplicationJ.service.ServerCredService;
 import com.ApplicationJ.utility.SupportUtility;
 
@@ -32,7 +31,7 @@ public class ServerCredController {
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ResponseEntity<?> getServerCredList() throws Exception {
-		List<ServerCredTO> list = serverCredService.getServerCredList();
+		List<ServerCredBO> list = serverCredService.getServerCredList();
 		Response response = supportUtility.responseBuilder(200, ApplicationConstants.SERVERCRED001, list, "servercred");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
@@ -40,22 +39,22 @@ public class ServerCredController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> getServerCredById(@PathVariable("id") int id) throws Exception {
-		ServerCredTO serverCredTO = serverCredService.getServerCredById(id);
-		Response response = supportUtility.responseBuilder(200, ApplicationConstants.SERVERCRED002, serverCredTO, "servercred");
+		ServerCredBO ServerCredBO = serverCredService.getServerCredById(id);
+		Response response = supportUtility.responseBuilder(200, ApplicationConstants.SERVERCRED002, ServerCredBO, "servercred");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ResponseEntity<?> addServerCred(@RequestBody ServerCredBO serverCredBO) throws Exception {
-		ServerCredTO serverCredTO= serverCredService.addServerCred(serverCredBO);
-		Response response = supportUtility.responseBuilder(200, ApplicationConstants.SERVERCRED003, serverCredTO, "servercred");
+		ServerCredBO ServerCredBO= serverCredService.addServerCred(serverCredBO);
+		Response response = supportUtility.responseBuilder(200, ApplicationConstants.SERVERCRED003, ServerCredBO, "servercred");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
 	public ResponseEntity<?> updateServerCred(@RequestBody ServerCredBO serverCredBO) throws Exception {
-		ServerCredTO serverCredTO= serverCredService.updateServerCred(serverCredBO);
-		Response response = supportUtility.responseBuilder(200, ApplicationConstants.SERVERCRED004, serverCredTO, "servercred");
+		ServerCredBO ServerCredBO= serverCredService.updateServerCred(serverCredBO);
+		Response response = supportUtility.responseBuilder(200, ApplicationConstants.SERVERCRED004, ServerCredBO, "servercred");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 

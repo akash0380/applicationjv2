@@ -14,11 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ApplicationJ.config.ApplicationConstants;
 import com.ApplicationJ.config.Response;
+import com.ApplicationJ.modelBO.FoodBO;
+import com.ApplicationJ.modelBO.FoodTypeBO;
+import com.ApplicationJ.modelBO.StatusBO;
 import com.ApplicationJ.modelBO.UsersBO;
-import com.ApplicationJ.modelTO.FoodTO;
-import com.ApplicationJ.modelTO.FoodTypeTO;
-import com.ApplicationJ.modelTO.StatusTO;
-import com.ApplicationJ.modelTO.UsersTO;
 import com.ApplicationJ.service.UsersService;
 import com.ApplicationJ.utility.SupportUtility;
 
@@ -35,14 +34,14 @@ public class UsersRestController {
 			
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ResponseEntity<?> getActiveUsers() throws Exception {
-		List<UsersTO> list = usersservice.getActiveUsers();
+		List<UsersBO> list = usersservice.getActiveUsers();
 		Response response = supportUtility.responseBuilder(200, ApplicationConstants.USR001, list, "users");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> getUserById(@PathVariable("id") int id) throws Exception {
-		UsersTO user = usersservice.getUsersById(id);
+		UsersBO user = usersservice.getUsersById(id);
 		Response response = supportUtility.responseBuilder(200, ApplicationConstants.USR002, user, "users");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
@@ -63,35 +62,35 @@ public class UsersRestController {
 	
 	@RequestMapping(value = "/statusList", method = RequestMethod.GET)
 	public ResponseEntity<?> getStatusList() throws Exception {
-		List<StatusTO> list = usersservice.getStatusList();
+		List<StatusBO> list = usersservice.getStatusList();
 		Response response = supportUtility.responseBuilder(200, ApplicationConstants.USR005, list, "users");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/foodTypeList", method = RequestMethod.GET)
 	public ResponseEntity<?> getFoodTypeList() throws Exception {
-		List<FoodTypeTO> list = usersservice.getFoodTypeList();
+		List<FoodTypeBO> list = usersservice.getFoodTypeList();
 		Response response = supportUtility.responseBuilder(200, ApplicationConstants.USR006, list, "users");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/foodList", method = RequestMethod.GET)
 	public ResponseEntity<?> getFoodList() throws Exception {
-		List<FoodTO> list = usersservice.getFoodList();
+		List<FoodBO> list = usersservice.getFoodList();
 		Response response = supportUtility.responseBuilder(200, ApplicationConstants.USR007, list, "users");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/activeUsersNameEmail", method = RequestMethod.GET)
 	public ResponseEntity<?> getActiveUsersNameEmail() throws Exception {
-		List<UsersTO> list = usersservice.getActiveUsersNameEmail();
+		List<UsersBO> list = usersservice.getActiveUsersNameEmail();
 		Response response = supportUtility.responseBuilder(200, ApplicationConstants.USR001, list, "users");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/testGroupBy", method = RequestMethod.GET)
 	public ResponseEntity<?> getTest() throws Exception {
-		List<UsersTO> list = usersservice.getTestGroupByList();
+		List<UsersBO> list = usersservice.getTestGroupByList();
 		Response response = supportUtility.responseBuilder(200, ApplicationConstants.USR008, list, "users");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
