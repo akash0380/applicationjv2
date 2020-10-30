@@ -25,41 +25,41 @@ import com.ApplicationJ.utility.SupportUtility;
 @RestController
 @RequestMapping("/users")
 public class UsersRestController {
-	
+
 	@Autowired
 	SupportUtility supportUtility;
-	
+
 	@Autowired
 	UsersService usersservice;
-			
+
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ResponseEntity<?> getActiveUsers() throws Exception {
 		List<UsersBO> list = usersservice.getActiveUsers();
 		Response response = supportUtility.responseBuilder(200, ApplicationConstants.USR001, list, "users");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> getUserById(@PathVariable("id") int id) throws Exception {
 		UsersBO user = usersservice.getUsersById(id);
 		Response response = supportUtility.responseBuilder(200, ApplicationConstants.USR002, user, "users");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ResponseEntity<?> addUser(@RequestBody UsersBO usersbo) throws Exception {
-		UsersBO returnObj= usersservice.addUser(usersbo);
+		UsersBO returnObj = usersservice.addUser(usersbo);
 		Response response = supportUtility.responseBuilder(200, ApplicationConstants.USR003, returnObj, "users");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
 	public ResponseEntity<?> updateUser(@RequestBody UsersBO usersbo) throws Exception {
-		UsersBO returnObj= usersservice.updateUser(usersbo);
+		UsersBO returnObj = usersservice.updateUser(usersbo);
 		Response response = supportUtility.responseBuilder(200, ApplicationConstants.USR004, returnObj, "users");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/statusList", method = RequestMethod.GET)
 	public ResponseEntity<?> getStatusList() throws Exception {
 		List<StatusBO> list = usersservice.getStatusList();
@@ -73,26 +73,26 @@ public class UsersRestController {
 		Response response = supportUtility.responseBuilder(200, ApplicationConstants.USR006, list, "users");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/foodList", method = RequestMethod.GET)
 	public ResponseEntity<?> getFoodList() throws Exception {
 		List<FoodBO> list = usersservice.getFoodList();
 		Response response = supportUtility.responseBuilder(200, ApplicationConstants.USR007, list, "users");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/activeUsersNameEmail", method = RequestMethod.GET)
 	public ResponseEntity<?> getActiveUsersNameEmail() throws Exception {
 		List<UsersBO> list = usersservice.getActiveUsersNameEmail();
 		Response response = supportUtility.responseBuilder(200, ApplicationConstants.USR001, list, "users");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/testGroupBy", method = RequestMethod.GET)
 	public ResponseEntity<?> getTest() throws Exception {
 		List<UsersBO> list = usersservice.getTestGroupByList();
 		Response response = supportUtility.responseBuilder(200, ApplicationConstants.USR008, list, "users");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
-	
+
 }

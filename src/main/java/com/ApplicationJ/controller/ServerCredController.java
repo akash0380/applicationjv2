@@ -22,10 +22,10 @@ import com.ApplicationJ.utility.SupportUtility;
 @RestController
 @RequestMapping("/servercred")
 public class ServerCredController {
-	
+
 	@Autowired
 	SupportUtility supportUtility;
-	
+
 	@Autowired
 	ServerCredService serverCredService;
 
@@ -35,29 +35,29 @@ public class ServerCredController {
 		Response response = supportUtility.responseBuilder(200, ApplicationConstants.SERVERCRED001, list, "servercred");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
-	
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<?> getServerCredById(@PathVariable("id") int id) throws Exception {
 		ServerCredBO ServerCredBO = serverCredService.getServerCredById(id);
-		Response response = supportUtility.responseBuilder(200, ApplicationConstants.SERVERCRED002, ServerCredBO, "servercred");
+		Response response = supportUtility.responseBuilder(200, ApplicationConstants.SERVERCRED002, ServerCredBO,
+				"servercred");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ResponseEntity<?> addServerCred(@RequestBody ServerCredBO serverCredBO) throws Exception {
-		ServerCredBO ServerCredBO= serverCredService.addServerCred(serverCredBO);
-		Response response = supportUtility.responseBuilder(200, ApplicationConstants.SERVERCRED003, ServerCredBO, "servercred");
+		ServerCredBO ServerCredBO = serverCredService.addServerCred(serverCredBO);
+		Response response = supportUtility.responseBuilder(200, ApplicationConstants.SERVERCRED003, ServerCredBO,
+				"servercred");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
 	public ResponseEntity<?> updateServerCred(@RequestBody ServerCredBO serverCredBO) throws Exception {
-		ServerCredBO ServerCredBO= serverCredService.updateServerCred(serverCredBO);
-		Response response = supportUtility.responseBuilder(200, ApplicationConstants.SERVERCRED004, ServerCredBO, "servercred");
+		ServerCredBO ServerCredBO = serverCredService.updateServerCred(serverCredBO);
+		Response response = supportUtility.responseBuilder(200, ApplicationConstants.SERVERCRED004, ServerCredBO,
+				"servercred");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 
-
-	
 }
