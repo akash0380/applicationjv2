@@ -5,8 +5,6 @@ import java.util.Map;
 
 public class Response {
 
-	private int status;
-
 	private String message;
 
 	private String path;
@@ -14,14 +12,6 @@ public class Response {
 	private String code;
 
 	private Map<String, Object> data = new HashMap<>();
-
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
-	}
 
 	public String getMessage() {
 		return message;

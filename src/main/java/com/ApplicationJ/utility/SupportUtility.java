@@ -11,7 +11,7 @@ public interface SupportUtility {
 
 	static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 	
-	Response responseBuilder(int status, String message, Object data, String route);
+	Response responseBuilder(String message, Object data, String route);
 
 	String getValue(String popName);
 

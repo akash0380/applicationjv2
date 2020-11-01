@@ -7,15 +7,21 @@ import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.ApplicationJ.config.Request;
 import com.ApplicationJ.dao.UsersDao;
 import com.ApplicationJ.model.FoodBO;
 import com.ApplicationJ.model.FoodTypeBO;
+import com.ApplicationJ.model.ServerCredBO;
 import com.ApplicationJ.model.StatusBO;
 import com.ApplicationJ.model.UsersBO;
 import com.ApplicationJ.service.UsersService;
@@ -45,18 +51,12 @@ public class UsersServiceImpl implements UserDetailsService, UsersService {
 	}
 
 	@Override
-	public List<UsersBO> getActiveUsers() {
+	public List<UsersBO> getActiveUsers(Request request) {
 		List<UsersBO> UsersBOListReturn = new ArrayList<UsersBO>();
-		List<UsersBO> usersBoList = userDao.getActiveUsers();
-		usersBoList.stream().filter(usersBO -> usersBO.getStatus().getStatus_id() == 1).forEach(usersBO -> {
-			UsersBOListReturn.add(usersBO);
-		});
-		/*
-		 * List<UsersBO> it = userDao.findAll(); it.forEach(e -> {
-		 * logger.debug(e.getId()+" fname "+e.getName()); });
-		 * logger.debug("testing round 2"); UsersBO user= userDao.getUserById(2);
-		 * logger.debug("data got from database "+user.getName());
-		 */
+		userDao.getActiveUsers(request).stream().filter(usersBO -> usersBO.getStatus().getStatus_id() == 1)
+				.forEach(usersBO -> {
+					UsersBOListReturn.add(usersBO);
+				});
 		return UsersBOListReturn;
 	}
 

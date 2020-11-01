@@ -14,9 +14,8 @@ import com.ApplicationJ.config.Response;
 public class SupportUtilityImpl implements SupportUtility {
 
 	@Override
-	public Response responseBuilder(int status, String message, Object data, String route) {
+	public Response responseBuilder(String message, Object data, String route) {
 		Response response = new Response();
-		response.setStatus(status);
 		response.setPath("/"+route);
 		response.setMessage(message);
 		response.putData(route, data);

@@ -19,21 +19,20 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name="server_cred")
+@Table(name = "server_cred")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = { "createdAt", "updatedAt" }, allowGetters = true)
 public class ServerCredBO {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Integer id;
-	
 	private String domain;
 	private String username;
 	private String password;
 	private String client;
-	
+
 	@Column(name = "updated_at", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	@UpdateTimestamp
