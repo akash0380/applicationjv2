@@ -47,7 +47,7 @@ public class ServerCredController {
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ResponseEntity<?> addServerCred(@RequestBody Request request) throws Exception {
-		ServerCredBO ServerCredBO = serverCredService.addServerCred((ServerCredBO)request.getRequestPayLoad());
+		ServerCredBO ServerCredBO = serverCredService.addServerCred((ServerCredBO) request.getRequestPayLoad());
 		Response response = supportUtility.responseBuilder(ApplicationConstants.SERVERCRED003, ServerCredBO,
 				"servercred");
 		return new ResponseEntity<Response>(response, HttpStatus.CREATED);
@@ -55,17 +55,16 @@ public class ServerCredController {
 
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
 	public ResponseEntity<?> updateServerCred(@RequestBody Request request) throws Exception {
-		ServerCredBO ServerCredBO = serverCredService.updateServerCred((ServerCredBO)request.getRequestPayLoad());
+		ServerCredBO ServerCredBO = serverCredService.updateServerCred((ServerCredBO) request.getRequestPayLoad());
 		Response response = supportUtility.responseBuilder(ApplicationConstants.SERVERCRED004, ServerCredBO,
 				"servercred");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
-	
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<?> removeServerCredById(@PathVariable("id") int id) throws Exception {
 		serverCredService.removeServerCredById(id);
-		Response response = supportUtility.responseBuilder(ApplicationConstants.SERVERCRED002, null,
-				"servercred");
+		Response response = supportUtility.responseBuilder(ApplicationConstants.SERVERCRED002, null, "servercred");
 		return new ResponseEntity<Response>(response, HttpStatus.NO_CONTENT);
 	}
 
