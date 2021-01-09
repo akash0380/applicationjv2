@@ -11,7 +11,7 @@ public class ApplicationConstants {
 	public static final String propDev__application_name="application.name";
 	
 	//CoreConfig
-	public static final boolean application_security_flag=true;	
+	public static final boolean application_security_flag=false;	
 	
 	//home controller
 	public static final String WEl001="home";
