@@ -22,6 +22,7 @@ public class GlobalExceptionController extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleException(HttpServletRequest request, Exception e) throws IOException {
     	Response response = supportUtility.responseBuilder(e.getMessage(), null, "exception");
+    	e.printStackTrace();
     	SupportUtility.logger.debug("got error "+e.getMessage());
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
     }

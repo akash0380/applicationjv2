@@ -33,16 +33,26 @@ public class UsersDaoImpl implements UsersDaoExt {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<UsersBO> criteriaQuery = criteriaBuilder.createQuery(UsersBO.class);
 		Root<UsersBO> entityRoot = criteriaQuery.from(UsersBO.class);// it is required
-		TypedQuery<UsersBO> query= entityManager.createQuery(criteriaQuery);
-		//pagination and sorting starts
-		if (request.getPageNo() != 0 && request.getPageSize() > 0) {
-			query.setFirstResult((request.getPageNo() - 1) * request.getPageSize());
-			query.setMaxResults(request.getPageSize());
+		//wildcard string search starts
+		ArrayList<Predicate> searchFilter = new ArrayList<>();
+		if(request.getSearchString()!=null && !request.getSearchString().toString().equals("")) {
+			ArrayList<Predicate> searchFilterLocal = new ArrayList<>();
+			Path<String> p1 = entityRoot.get(request.getSearchFieldName().toString());
+			searchFilterLocal.add(criteriaBuilder.like(p1, "%" + request.getSearchString() + "%"));
+			searchFilter.add(criteriaBuilder.or(searchFilterLocal.toArray(new Predicate[searchFilterLocal.size()])));
 		}
+		criteriaQuery.where(searchFilter.toArray(new Predicate[searchFilter.size()]));
+		//wildcard string search ends
+		//pagination and sorting starts
 		if(request.getSortOrder()!=null && !request.getSortOrder()) {
 			criteriaQuery.orderBy(criteriaBuilder.desc(entityRoot.get(request.getSortFieldName())));						
 		}else {
 			criteriaQuery.orderBy(criteriaBuilder.asc(entityRoot.get(request.getSortFieldName())));			
+		}
+		TypedQuery<UsersBO> query= entityManager.createQuery(criteriaQuery);
+		if (request.getPageNo() != 0 && request.getPageSize() > 0) {
+			query.setFirstResult((request.getPageNo() - 1) * request.getPageSize());
+			query.setMaxResults(request.getPageSize());
 		}
 		//pagination and sorting ends
 		List<UsersBO> userList = query.getResultList();
