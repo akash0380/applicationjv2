@@ -6,10 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ApplicationJ.config.ApplicationConstants;
@@ -30,39 +34,39 @@ public class ServerCredController {
 	@Autowired
 	ServerCredService serverCredService;
 
-	@RequestMapping(value = "/list", method = RequestMethod.POST)
-	public ResponseEntity<?> getServerCredList(@RequestBody Request request) throws Exception {
+	@PostMapping("/list")
+	public ResponseEntity<?> getServerCredList(@RequestHeader(value = "authKey") String authKey, @RequestBody Request request) throws Exception {
 		List<ServerCredBO> list = serverCredService.getServerCredList(request);
 		Response response = supportUtility.responseBuilder(ApplicationConstants.SERVERCRED001, list, "servercred");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> getServerCredById(@PathVariable("id") int id) throws Exception {
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getServerCredById(@RequestHeader(value = "authKey") String authKey, @PathVariable("id") int id) throws Exception {
 		ServerCredBO ServerCredBO = serverCredService.getServerCredById(id);
 		Response response = supportUtility.responseBuilder(ApplicationConstants.SERVERCRED002, ServerCredBO,
 				"servercred");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ResponseEntity<?> addServerCred(@RequestBody Request request) throws Exception {
+	@PostMapping("/add")
+	public ResponseEntity<?> addServerCred(@RequestHeader(value = "authKey") String authKey, @RequestBody Request request) throws Exception {
 		ServerCredBO ServerCredBO = serverCredService.addServerCred((ServerCredBO) request.getRequestPayLoad());
 		Response response = supportUtility.responseBuilder(ApplicationConstants.SERVERCRED003, ServerCredBO,
 				"servercred");
 		return new ResponseEntity<Response>(response, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/update", method = RequestMethod.PUT)
-	public ResponseEntity<?> updateServerCred(@RequestBody Request request) throws Exception {
+	@PutMapping("/update")
+	public ResponseEntity<?> updateServerCred(@RequestHeader(value = "authKey") String authKey, @RequestBody Request request) throws Exception {
 		ServerCredBO ServerCredBO = serverCredService.updateServerCred((ServerCredBO) request.getRequestPayLoad());
 		Response response = supportUtility.responseBuilder(ApplicationConstants.SERVERCRED004, ServerCredBO,
 				"servercred");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<?> removeServerCredById(@PathVariable("id") int id) throws Exception {
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<?> removeServerCredById(@RequestHeader(value = "authKey") String authKey, @PathVariable("id") int id) throws Exception {
 		serverCredService.removeServerCredById(id);
 		Response response = supportUtility.responseBuilder(ApplicationConstants.SERVERCRED002, null, "servercred");
 		return new ResponseEntity<Response>(response, HttpStatus.NO_CONTENT);

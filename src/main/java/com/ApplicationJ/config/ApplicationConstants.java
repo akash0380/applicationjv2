@@ -3,7 +3,7 @@ package com.ApplicationJ.config;
 public class ApplicationConstants {
 
 	//Core
-	public static final String authKey="AuthKey";
+	public static final String authKey="authKey";
 	public static final String activeProfile="spring.profiles.active";
 	public static final String profile="/application.properties";
 	public static final String profileDev="/application-dev.properties";
@@ -32,5 +32,11 @@ public class ApplicationConstants {
 	public static final String SERVERCRED002="ServerCred Got Successfully";	
 	public static final String SERVERCRED003="ServerCred Added Successfully";	
 	public static final String SERVERCRED004="ServerCred Updated Successfully";	
+	
+	//knowledge controller
+	public static final String KNOWLEDGE001="List Got Successfully";
+	public static final String KNOWLEDGE002="Knowledge Got Successfully";	
+	public static final String KNOWLEDGE003="Knowledge Added Successfully";	
+	public static final String KNOWLEDGE004="Knowledge Updated Successfully";	
 	
 }

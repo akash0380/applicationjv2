@@ -9,8 +9,6 @@ public class Response {
 
 	private String path;
 
-	private String code;
-
 	private Map<String, Object> data = new HashMap<>();
 
 	public String getMessage() {
@@ -27,14 +25,6 @@ public class Response {
 
 	public void setPath(String path) {
 		this.path = path;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
 	}
 
 	public Map<String, Object> getData() {
