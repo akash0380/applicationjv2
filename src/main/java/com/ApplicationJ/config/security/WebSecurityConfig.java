@@ -39,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	public WebSecurityConfig() {
 		if (ApplicationConstants.application_security_flag) {
-			pathArray = new String[] { "/auth/token", "/welcome/**", "/users/add", "/swagger-ui.html", "/webjars/**",
+			pathArray = new String[] { "/auth/token", "/welcome/checkactiveprofile", "/users/add", "/swagger-ui.html", "/webjars/**",
 					"/v2/**", "/swagger-resources/**" };
 		} else {
 			pathArray = new String[] { "/**" };

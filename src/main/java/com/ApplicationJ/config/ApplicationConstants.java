@@ -12,6 +12,7 @@ public class ApplicationConstants {
 	
 	//CoreConfig
 	public static final boolean application_security_flag=true;	//set false for angular dev
+	public static final int expInHr = 24;
 	
 	//home controller
 	public static final String WEl001="home";

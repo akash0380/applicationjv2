@@ -12,7 +12,7 @@ public interface UsersService {
 
 	List<UsersBO> getActiveUsers(Request request);
 
-	UsersBO addUser(UsersBO userbo);
+	UsersBO addUser(UsersBO userbo) throws Exception;
 
 	UsersBO getUsersById(int id);
 

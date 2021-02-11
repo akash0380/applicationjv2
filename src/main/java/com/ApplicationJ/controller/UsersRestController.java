@@ -35,6 +35,7 @@ public class UsersRestController {
 
 	@Autowired
 	UsersService usersservice;
+	
 
 	@PostMapping("/list")
 	public ResponseEntity<?> getActiveUsers(@RequestHeader(value = "authKey") String authKey, @RequestBody Request request) throws Exception {
@@ -51,9 +52,9 @@ public class UsersRestController {
 	}
 
 	@PostMapping("/add")
-	public ResponseEntity<?> addUser(@RequestHeader(value = "authKey") String authKey, @RequestBody Request request) throws Exception {
-		UsersBO returnObj = usersservice.addUser((UsersBO)request.getRequestPayLoad());
-		Response response = supportUtility.responseBuilder(ApplicationConstants.USR003, returnObj, "users");
+	public ResponseEntity<?> addUser(@RequestBody UsersBO userbo) throws Exception {
+		userbo = usersservice.addUser(userbo);		
+		Response response = supportUtility.responseBuilder(ApplicationConstants.USR003, userbo, "users");
 		return new ResponseEntity<Response>(response, HttpStatus.CREATED);
 	}
 

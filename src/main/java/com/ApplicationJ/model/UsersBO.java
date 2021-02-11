@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -22,6 +23,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -34,7 +36,7 @@ public class UsersBO {
 		super();
 	}
 
-	public UsersBO(Integer id, String name, String email) {
+	public UsersBO(Long id, String name, String email) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -50,7 +52,7 @@ public class UsersBO {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
-	private Integer id;
+	private Long id;
 	
 	@Column(name="name")
 	private String name;
@@ -72,6 +74,10 @@ public class UsersBO {
 	@JoinColumn(name = "food_type_id" , nullable=false)
 	private FoodTypeBO foodtype;
 	
+	@JsonIgnore
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, mappedBy = "userbo")
+	private UserToken jwtToken;
+	
 	@Column(name = "updated_at", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	@UpdateTimestamp
@@ -88,11 +94,11 @@ public class UsersBO {
 	@Column(name = "created_by")
 	private Integer createdBy;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -142,6 +148,14 @@ public class UsersBO {
 
 	public void setFoodtype(FoodTypeBO foodtype) {
 		this.foodtype = foodtype;
+	}
+
+	public UserToken getJwtToken() {
+		return jwtToken;
+	}
+
+	public void setJwtToken(UserToken jwtToken) {
+		this.jwtToken = jwtToken;
 	}
 
 	public Date getUpdatedAt() {

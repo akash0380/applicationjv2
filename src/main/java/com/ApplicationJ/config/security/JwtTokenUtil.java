@@ -1,16 +1,28 @@
 package com.ApplicationJ.config.security;
 
 import java.io.Serializable;
+import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.function.Function;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
+import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.DatatypeConverter;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import com.ApplicationJ.config.ApplicationConstants;
+import com.ApplicationJ.dao.UsersDao;
+import com.ApplicationJ.model.UsersBO;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -19,57 +31,44 @@ public class JwtTokenUtil implements Serializable {
 
 	private static final long serialVersionUID = -2550185165626007488L;
 
-	public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
-
 	@Value("${jwt.secret}")
 	private String secret;
 
-	//retrieve username from jwt token
-	public String getUsernameFromToken(String token) {
-		return getClaimFromToken(token, Claims::getSubject);
+	@Autowired
+	private UsersDao userDao;
+
+	public UsersBO getUserFromToken(String accessToken) {
+		UsersBO user = null;
+		Claims claims = Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(secret))
+				.parseClaimsJws(accessToken).getBody();
+		if (claims.containsKey("user")) {
+			ObjectMapper mapper = new ObjectMapper();
+			UsersBO userTmp = mapper.convertValue(claims.get("user", LinkedHashMap.class), UsersBO.class);
+			Date dt = claims.get("exp", Date.class);
+			Optional<UsersBO> userData = userDao.findById(userTmp.getId());
+			if (userData.isPresent()) {
+				user=userData.get();
+			}
+		}
+		return user;
 	}
 
-	//retrieve expiration date from jwt token
-	public Date getExpirationDateFromToken(String token) {
-		return getClaimFromToken(token, Claims::getExpiration);
+	public String generateToken(UsersBO userbo) {
+		SignatureAlgorithm algorithm = SignatureAlgorithm.HS512;
+		long nowMillis = System.currentTimeMillis();
+		Date now = new Date(nowMillis);
+		Date exp = new Date(now.getTime() + TimeUnit.HOURS.toMillis(ApplicationConstants.expInHr));
+		byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(secret);
+		Key signKey = new SecretKeySpec(apiKeySecretBytes, algorithm.getJcaName());
+
+		Map<String, Object> userDtoMap = new HashMap<>();
+		userDtoMap.put("id", userbo.getId());
+		userDtoMap.put("name", userbo.getName());
+		userDtoMap.put("email", userbo.getEmail());
+
+		JwtBuilder builder = Jwts.builder().claim("user", userDtoMap).setId(userbo.getId().toString()).setIssuedAt(now)
+				.setExpiration(exp).signWith(algorithm, signKey);
+		return builder.compact();
 	}
 
-	public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
-		final Claims claims = getAllClaimsFromToken(token);
-		return claimsResolver.apply(claims);
-	}
-    //for retrieveing any information from token we will need the secret key
-	private Claims getAllClaimsFromToken(String token) {
-		return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
-	}
-
-	//check if the token has expired
-	private Boolean isTokenExpired(String token) {
-		final Date expiration = getExpirationDateFromToken(token);
-		return expiration.before(new Date());
-	}
-
-	//generate token for user
-	public String generateToken(UserDetails userDetails) {
-		Map<String, Object> claims = new HashMap<>();
-		return doGenerateToken(claims, userDetails.getUsername());
-	}
-
-	//while creating the token -
-	//1. Define  claims of the token, like Issuer, Expiration, Subject, and the ID
-	//2. Sign the JWT using the HS512 algorithm and secret key.
-	//3. According to JWS Compact Serialization(https://tools.ietf.org/html/draft-ietf-jose-json-web-signature-41#section-3.1)
-	//   compaction of the JWT to a URL-safe string 
-	private String doGenerateToken(Map<String, Object> claims, String subject) {
-
-		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-				.signWith(SignatureAlgorithm.HS512, secret).compact();
-	}
-
-	//validate token
-	public Boolean validateToken(String token, UserDetails userDetails) {
-		final String username = getUsernameFromToken(token);
-		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-	}
 }

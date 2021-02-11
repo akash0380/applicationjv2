@@ -5,12 +5,9 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,10 +15,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ApplicationJ.config.Request;
+import com.ApplicationJ.config.security.JwtTokenUtil;
+import com.ApplicationJ.dao.JwtTokenDao;
 import com.ApplicationJ.dao.UsersDao;
 import com.ApplicationJ.model.FoodBO;
 import com.ApplicationJ.model.FoodTypeBO;
-import com.ApplicationJ.model.ServerCredBO;
+import com.ApplicationJ.model.UserToken;
 import com.ApplicationJ.model.StatusBO;
 import com.ApplicationJ.model.UsersBO;
 import com.ApplicationJ.service.UsersService;
@@ -35,6 +34,12 @@ public class UsersServiceImpl implements UserDetailsService, UsersService {
 
 	@Autowired
 	private PasswordEncoder bcryptEncoder;
+
+	// for jwt
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
+	@Autowired
+	private JwtTokenDao jwtTokenDao;
 
 	public UsersServiceImpl() {
 		super();
@@ -61,9 +66,21 @@ public class UsersServiceImpl implements UserDetailsService, UsersService {
 	}
 
 	@Override
-	public UsersBO addUser(UsersBO userbo) {
+	public UsersBO addUser(UsersBO userbo) throws Exception {
 		userbo.setPassword(bcryptEncoder.encode(userbo.getPassword()));
-		return userDao.addUser(userbo);
+		try {
+			UsersBO user = userDao.addUser(userbo);
+			final String token = jwtTokenUtil.generateToken(user);
+			UserToken jwtToken = new UserToken();
+			jwtToken.setToken(token);
+			jwtToken.setUserbo(userbo);
+			jwtTokenDao.save(jwtToken);
+		} catch (DisabledException e) {
+			throw new Exception("User Disabled", e);
+		} catch (BadCredentialsException e) {
+			throw new Exception("Wrong Credentials", e);
+		}
+		return userbo;
 	}
 
 	@Override
