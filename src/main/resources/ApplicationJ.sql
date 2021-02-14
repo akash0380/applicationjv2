@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 10, 2021 at 10:03 PM
--- Server version: 10.3.22-MariaDB-1ubuntu1
+-- Generation Time: Feb 14, 2021 at 10:09 PM
+-- Server version: 10.3.25-MariaDB-0ubuntu0.20.04.1
 -- PHP Version: 7.4.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -94,6 +94,26 @@ INSERT INTO `knowledge` (`id`, `ans`, `created_at`, `created_by`, `file`, `qus`,
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `roles`
+--
+
+CREATE TABLE `roles` (
+  `role_id` int(11) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `status` bit(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`role_id`, `name`, `status`) VALUES
+(1, 'Admin', b'1'),
+(2, 'Manager', b'1');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `server_cred`
 --
 
@@ -163,31 +183,45 @@ INSERT INTO `tags` (`tag_id`, `name`, `status`) VALUES
 --
 
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `username` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `email` varchar(255) NOT NULL,
-  `status_id` int(11) NOT NULL,
-  `food_type_id` int(11) NOT NULL,
+  `id` bigint(20) NOT NULL,
+  `created_at` datetime NOT NULL,
   `created_by` int(11) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `updated_at` datetime NOT NULL,
   `updated_by` int(11) DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `user_id` bigint(20) NOT NULL,
-  `enabled` bit(1) NOT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `food_type_id` int(11) NOT NULL,
+  `status_id` int(11) NOT NULL,
   `role_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `username`, `password`, `email`, `status_id`, `food_type_id`, `created_by`, `created_at`, `updated_by`, `updated_at`, `user_id`, `enabled`, `role_id`) VALUES
-(1, 'vaibhav', 'vaibhav', '$2a$10$IoX/5ofvwwtuEQwwCgiNaOiGgaPvL7b.uXUrmI70Rvn1ACW7C5G0a', 'vaibhav@gmail.com', 1, 1, 1, '2018-07-31 18:30:00', 1, '2018-07-31 18:30:00', 0, b'0', 0),
-(2, 'akash', 'akash', '$2a$10$pMnfLfBxRgVOpqDC.lF4JOJCUgIe45hdKubHa86kx6jD/vhxFi0qK', 'akash@gmail.com', 1, 2, 1, '2018-07-31 18:30:00', 1, '2018-07-31 18:30:00', 0, b'0', 0),
-(3, 'akshat', 'akshat', '$2a$10$hwZmEBuuoOgNWjyMImjPBO3CSJs/4gkxHzRKszUKHlpoOPcUnbPhy', 'akshat@gmail.com', 2, 1, 1, '2018-07-31 18:30:00', 1, '2018-07-31 18:30:00', 0, b'0', 0),
-(4, 'rohit', 'rohit', '$2a$10$VVLPeQUQBsUqJyia8AbtdO4ltyrLjntNSKL5jpYK48e9olmX5r.OW', 'rohit@gmail.com', 1, 1, 1, '2020-09-27 15:22:47', 1, '2020-09-27 15:22:47', 0, b'0', 0);
+INSERT INTO `users` (`id`, `created_at`, `created_by`, `email`, `name`, `password`, `updated_at`, `updated_by`, `username`, `food_type_id`, `status_id`, `role_id`) VALUES
+(1, '2021-02-14 22:07:14', 1, 'akash@gmail.com', 'akash', '$2a$10$diDP68FyfTCMvtZZo4arRecg4cPoPF/cVUvBwaLDCPgp.w4EwHOky', '2021-02-14 22:07:14', 1, 'akash', 1, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_token`
+--
+
+CREATE TABLE `user_token` (
+  `id` bigint(20) NOT NULL,
+  `token` varchar(3000) DEFAULT NULL,
+  `user_id` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user_token`
+--
+
+INSERT INTO `user_token` (`id`, `token`, `user_id`) VALUES
+(1, 'eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7Im5hbWUiOiJha2FzaCIsImlkIjoxLCJlbWFpbCI6ImFrYXNoQGdtYWlsLmNvbSJ9LCJqdGkiOiIxIiwiaWF0IjoxNjEzMzIwNjM0LCJleHAiOjE2MTM0MDcwMzR9.LPfZgrBVRzvVaMvPRZL3uHQdaOteKyvfjeHZoJxH5GQTFufok_oVkaFQZ8gGLLlvAAHPTKmmkRbVMLWwvPnQ2g', 1);
 
 --
 -- Indexes for dumped tables
@@ -215,6 +249,12 @@ ALTER TABLE `knowledge`
   ADD KEY `FK8reffy7fs34ifiriahb3a9evs` (`tag_id`);
 
 --
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`role_id`);
+
+--
 -- Indexes for table `server_cred`
 --
 ALTER TABLE `server_cred`
@@ -237,8 +277,16 @@ ALTER TABLE `tags`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
+  ADD KEY `FKgt7l6dw1xavs1cvgkfly4d2n1` (`food_type_id`),
   ADD KEY `FK3m08uc0bd36m6tgp3g65m20dl` (`status_id`),
-  ADD KEY `FKgt7l6dw1xavs1cvgkfly4d2n1` (`food_type_id`);
+  ADD KEY `FKp56c1712k691lhsyewcssf40f` (`role_id`);
+
+--
+-- Indexes for table `user_token`
+--
+ALTER TABLE `user_token`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `UK_dsueu4oggfo11n7trivi7vvyt` (`user_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -263,6 +311,12 @@ ALTER TABLE `knowledge`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `server_cred`
 --
 ALTER TABLE `server_cred`
@@ -284,7 +338,13 @@ ALTER TABLE `tags`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `user_token`
+--
+ALTER TABLE `user_token`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -308,7 +368,14 @@ ALTER TABLE `knowledge`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `FK3m08uc0bd36m6tgp3g65m20dl` FOREIGN KEY (`status_id`) REFERENCES `status` (`status_id`),
-  ADD CONSTRAINT `FKgt7l6dw1xavs1cvgkfly4d2n1` FOREIGN KEY (`food_type_id`) REFERENCES `food_type` (`food_type_id`);
+  ADD CONSTRAINT `FKgt7l6dw1xavs1cvgkfly4d2n1` FOREIGN KEY (`food_type_id`) REFERENCES `food_type` (`food_type_id`),
+  ADD CONSTRAINT `FKp56c1712k691lhsyewcssf40f` FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`);
+
+--
+-- Constraints for table `user_token`
+--
+ALTER TABLE `user_token`
+  ADD CONSTRAINT `FKfadr8tg4d19axmfe9fltvrmqt` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

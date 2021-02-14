@@ -6,6 +6,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -67,20 +68,22 @@ public class UsersServiceImpl implements UserDetailsService, UsersService {
 
 	@Override
 	public UsersBO addUser(UsersBO userbo) throws Exception {
+		UsersBO user=null;
 		userbo.setPassword(bcryptEncoder.encode(userbo.getPassword()));
 		try {
-			UsersBO user = userDao.addUser(userbo);
+			user = userDao.addUser(userbo);
 			final String token = jwtTokenUtil.generateToken(user);
 			UserToken jwtToken = new UserToken();
 			jwtToken.setToken(token);
 			jwtToken.setUserbo(userbo);
 			jwtTokenDao.save(jwtToken);
+			user.setJwtToken(jwtToken);
 		} catch (DisabledException e) {
 			throw new Exception("User Disabled", e);
 		} catch (BadCredentialsException e) {
 			throw new Exception("Wrong Credentials", e);
 		}
-		return userbo;
+		return user;
 	}
 
 	@Override

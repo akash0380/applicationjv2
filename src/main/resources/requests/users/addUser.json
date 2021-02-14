@@ -1,25 +1,30 @@
 {
-  "username": "rohit",
-  "email": "rohit@gmail.com",
-  "name": "rohit",
-  "password": "rohit",
-  "foodtype": {
-    "food": [
-      {
-        "description": "MixVeg for dinner",
-        "food_id": 1,
-        "name": "MixVeg",
-        "status": true,
-        "type_id": 1
-      }
-    ],
-    "food_type_id": 1,
-    "name": "Veg",
-    "status": true
-  },
-  "status": {
-    "status_id": 1,
-    "name": "Active",
-    "status": true
-  }
+   "username":"akash",
+   "email":"akash@gmail.com",
+   "name":"akash",
+   "password":"akash",
+   "foodtype":{
+      "food":[
+         {
+            "description":"MixVeg for dinner",
+            "food_id":1,
+            "name":"MixVeg",
+            "status":true,
+            "type_id":1
+         }
+      ],
+      "food_type_id":1,
+      "name":"Veg",
+      "status":true
+   },
+   "status":{
+      "status_id":1,
+      "name":"Active",
+      "status":true
+   },
+   "role":{
+      "role_id":1,
+      "name":"Admin",
+      "status":true
+   }
 }

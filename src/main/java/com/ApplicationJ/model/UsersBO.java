@@ -23,7 +23,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -74,9 +73,12 @@ public class UsersBO {
 	@JoinColumn(name = "food_type_id" , nullable=false)
 	private FoodTypeBO foodtype;
 	
-	@JsonIgnore
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, mappedBy = "userbo")
 	private UserToken jwtToken;
+	
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "role_id" , nullable=false)
+	private RoleBO role;
 	
 	@Column(name = "updated_at", nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
@@ -156,6 +158,14 @@ public class UsersBO {
 
 	public void setJwtToken(UserToken jwtToken) {
 		this.jwtToken = jwtToken;
+	}
+
+	public RoleBO getRole() {
+		return role;
+	}
+
+	public void setRole(RoleBO role) {
+		this.role = role;
 	}
 
 	public Date getUpdatedAt() {
