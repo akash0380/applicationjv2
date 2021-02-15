@@ -21,9 +21,6 @@ public class StatusBO{
 
 	@Column(name="status")
 	private boolean status;
-	
-//    @OneToMany(mappedBy = "status")
-//    private List<UsersBO> users = new ArrayList<UsersBO>();
 
 	public Integer getStatus_id() {
 		return status_id;

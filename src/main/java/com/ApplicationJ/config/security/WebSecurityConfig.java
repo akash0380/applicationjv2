@@ -10,7 +10,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -21,13 +23,10 @@ import com.ApplicationJ.utility.SupportUtility;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements UserDetailsService {
 
 	@Autowired
 	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-
-	@Autowired
-	private UserDetailsService jwtUserDetailsService;
 
 	@Autowired
 	private JwtRequestFilter jwtRequestFilter;
@@ -48,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
+		auth.userDetailsService(new WebSecurityConfig()).passwordEncoder(passwordEncoder());
 	}
 
 	@Bean
@@ -69,5 +68,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.authenticated().and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		return null;
 	}
 }

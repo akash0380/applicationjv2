@@ -6,12 +6,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,14 +17,14 @@ import com.ApplicationJ.dao.JwtTokenDao;
 import com.ApplicationJ.dao.UsersDao;
 import com.ApplicationJ.model.FoodBO;
 import com.ApplicationJ.model.FoodTypeBO;
-import com.ApplicationJ.model.UserToken;
 import com.ApplicationJ.model.StatusBO;
+import com.ApplicationJ.model.UserToken;
 import com.ApplicationJ.model.UsersBO;
 import com.ApplicationJ.service.UsersService;
 
 @Transactional
 @Service
-public class UsersServiceImpl implements UserDetailsService, UsersService {
+public class UsersServiceImpl implements UsersService {
 
 	@Autowired
 	private UsersDao userDao;
@@ -36,24 +32,14 @@ public class UsersServiceImpl implements UserDetailsService, UsersService {
 	@Autowired
 	private PasswordEncoder bcryptEncoder;
 
-	// for jwt
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
+
 	@Autowired
 	private JwtTokenDao jwtTokenDao;
 
 	public UsersServiceImpl() {
 		super();
-	}
-
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		UsersBO user = userDao.findByUsername(username);
-		if (user == null) {
-			throw new UsernameNotFoundException("User not found with username: " + username);
-		}
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-				new ArrayList<>());
 	}
 
 	@Override

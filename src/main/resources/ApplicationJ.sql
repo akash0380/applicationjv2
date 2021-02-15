@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 14, 2021 at 10:09 PM
+-- Generation Time: Feb 15, 2021 at 10:47 PM
 -- Server version: 10.3.25-MariaDB-0ubuntu0.20.04.1
 -- PHP Version: 7.4.3
 
@@ -21,6 +21,26 @@ SET time_zone = "+00:00";
 --
 -- Database: `ApplicationJ`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `auth_uri`
+--
+
+CREATE TABLE `auth_uri` (
+  `id` int(11) NOT NULL,
+  `uri` varchar(255) DEFAULT NULL,
+  `role_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `auth_uri`
+--
+
+INSERT INTO `auth_uri` (`id`, `uri`, `role_id`) VALUES
+(1, '***', 1),
+(2, 'users/list', 1);
 
 -- --------------------------------------------------------
 
@@ -202,7 +222,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `created_at`, `created_by`, `email`, `name`, `password`, `updated_at`, `updated_by`, `username`, `food_type_id`, `status_id`, `role_id`) VALUES
-(1, '2021-02-14 22:07:14', 1, 'akash@gmail.com', 'akash', '$2a$10$diDP68FyfTCMvtZZo4arRecg4cPoPF/cVUvBwaLDCPgp.w4EwHOky', '2021-02-14 22:07:14', 1, 'akash', 1, 1, 1);
+(1, '2021-02-15 22:28:02', 1, 'akash@gmail.com', 'akash', '$2a$10$0fMSpV.UltNO7coBKWl1EOHo7Pruc/ZVk9JgPhE92.6.kVY.yaTYO', '2021-02-15 22:28:02', 1, 'akash', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -221,11 +241,18 @@ CREATE TABLE `user_token` (
 --
 
 INSERT INTO `user_token` (`id`, `token`, `user_id`) VALUES
-(1, 'eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7Im5hbWUiOiJha2FzaCIsImlkIjoxLCJlbWFpbCI6ImFrYXNoQGdtYWlsLmNvbSJ9LCJqdGkiOiIxIiwiaWF0IjoxNjEzMzIwNjM0LCJleHAiOjE2MTM0MDcwMzR9.LPfZgrBVRzvVaMvPRZL3uHQdaOteKyvfjeHZoJxH5GQTFufok_oVkaFQZ8gGLLlvAAHPTKmmkRbVMLWwvPnQ2g', 1);
+(1, 'eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7Im5hbWUiOiJha2FzaCIsImlkIjoxLCJlbWFpbCI6ImFrYXNoQGdtYWlsLmNvbSJ9LCJqdGkiOiIxIiwiaWF0IjoxNjEzNDA4MjgzLCJleHAiOjE2MTM0OTQ2ODN9.hRT6bIdWbSj8he8zsEZrubwZWXsYOmxqbYGU0lKA8sYII-Zlbi4FiL3LRdBBUyJw5ggUOwcUsnt4H5YhGeLALg', 1);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `auth_uri`
+--
+ALTER TABLE `auth_uri`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK18fieuu7nkkvv58g9jherhx84` (`role_id`);
 
 --
 -- Indexes for table `food`
@@ -293,6 +320,12 @@ ALTER TABLE `user_token`
 --
 
 --
+-- AUTO_INCREMENT for table `auth_uri`
+--
+ALTER TABLE `auth_uri`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `food`
 --
 ALTER TABLE `food`
@@ -349,6 +382,12 @@ ALTER TABLE `user_token`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `auth_uri`
+--
+ALTER TABLE `auth_uri`
+  ADD CONSTRAINT `FK18fieuu7nkkvv58g9jherhx84` FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`);
 
 --
 -- Constraints for table `food`
