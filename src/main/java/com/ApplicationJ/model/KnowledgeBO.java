@@ -31,7 +31,7 @@ public class KnowledgeBO {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private Integer id;
+	private Long id;
 	private String qus;
 	private String ans;
 	private String file;
@@ -40,11 +40,11 @@ public class KnowledgeBO {
 	@JoinColumn(name = "tag_id", nullable = false)
 	private TagsBO tags;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

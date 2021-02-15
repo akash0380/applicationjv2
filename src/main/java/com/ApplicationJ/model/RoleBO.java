@@ -20,7 +20,7 @@ public class RoleBO{
 	@Id
 	@Column(name = "role_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer role_id;
+	private Long role_id;
 	
 	@Column(name="name")
 	private String name;
@@ -31,12 +31,21 @@ public class RoleBO{
 	@OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	@JoinColumn(name = "role_id", referencedColumnName = "role_id", insertable = false, updatable = false, nullable = true)
 	private List<AuthUriBO> authUri;
+	
+	public RoleBO() {
+		super();
+	}
 
-	public Integer getRole_id() {
+	public RoleBO(Long role_id) {
+		super();
+		this.role_id = role_id;
+	}
+
+	public Long getRole_id() {
 		return role_id;
 	}
 
-	public void setRole_id(Integer role_id) {
+	public void setRole_id(Long role_id) {
 		this.role_id = role_id;
 	}
 

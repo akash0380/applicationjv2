@@ -26,10 +26,10 @@ import com.ApplicationJ.utility.SupportUtility;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements UserDetailsService {
 
 	@Autowired
-	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+	private TokenAuthEntryPoint tokenAuthEntryPoint;
 
 	@Autowired
-	private JwtRequestFilter jwtRequestFilter;
+	private SecurityFilter securityFilter;
 
 	@Autowired
 	SupportUtility supportUtility;
@@ -65,9 +65,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements U
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.csrf().disable().authorizeRequests()
 		.antMatchers(pathArray).permitAll().anyRequest()
-		.authenticated().and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
+		.authenticated().and().exceptionHandling().authenticationEntryPoint(tokenAuthEntryPoint).and()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+		httpSecurity.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
 	}
 
 	@Override

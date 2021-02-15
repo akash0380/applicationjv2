@@ -12,15 +12,15 @@ public class TagsBO {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer tag_id;
+	private Long tag_id;
 	private String name;
 	private boolean status;
 
-	public Integer getTag_id() {
+	public Long getTag_id() {
 		return tag_id;
 	}
 
-	public void setTag_id(Integer tag_id) {
+	public void setTag_id(Long tag_id) {
 		this.tag_id = tag_id;
 	}
 

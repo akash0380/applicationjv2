@@ -15,7 +15,7 @@ public class SwaggerConfig {
 	@Bean
 	public Docket swaggerInit() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
-				.apis(RequestHandlerSelectors.basePackage("com.ApplicationJ")).build();
+				.apis(RequestHandlerSelectors.basePackage(ApplicationConstants.appPackage)).build();
 	}
 	
 }

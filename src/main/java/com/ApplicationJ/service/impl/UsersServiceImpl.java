@@ -12,13 +12,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ApplicationJ.config.Request;
-import com.ApplicationJ.config.security.JwtTokenUtil;
-import com.ApplicationJ.dao.JwtTokenDao;
+import com.ApplicationJ.config.security.SecurityFilter;
+import com.ApplicationJ.dao.UsersTokenDao;
 import com.ApplicationJ.dao.UsersDao;
 import com.ApplicationJ.model.FoodBO;
 import com.ApplicationJ.model.FoodTypeBO;
 import com.ApplicationJ.model.StatusBO;
-import com.ApplicationJ.model.UserToken;
+import com.ApplicationJ.model.UsersToken;
 import com.ApplicationJ.model.UsersBO;
 import com.ApplicationJ.service.UsersService;
 
@@ -30,13 +30,13 @@ public class UsersServiceImpl implements UsersService {
 	private UsersDao userDao;
 
 	@Autowired
-	private PasswordEncoder bcryptEncoder;
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	private JwtTokenUtil jwtTokenUtil;
+	private SecurityFilter securityFilter;
 
 	@Autowired
-	private JwtTokenDao jwtTokenDao;
+	private UsersTokenDao usersTokenDao;
 
 	public UsersServiceImpl() {
 		super();
@@ -55,14 +55,14 @@ public class UsersServiceImpl implements UsersService {
 	@Override
 	public UsersBO addUser(UsersBO userbo) throws Exception {
 		UsersBO user=null;
-		userbo.setPassword(bcryptEncoder.encode(userbo.getPassword()));
+		userbo.setPassword(passwordEncoder.encode(userbo.getPassword()));
 		try {
 			user = userDao.addUser(userbo);
-			final String token = jwtTokenUtil.generateToken(user);
-			UserToken jwtToken = new UserToken();
+			final String token = securityFilter.generateToken(user);
+			UsersToken jwtToken = new UsersToken();
 			jwtToken.setToken(token);
 			jwtToken.setUserbo(userbo);
-			jwtTokenDao.save(jwtToken);
+			usersTokenDao.save(jwtToken);
 			user.setJwtToken(jwtToken);
 		} catch (DisabledException e) {
 			throw new Exception("User Disabled", e);

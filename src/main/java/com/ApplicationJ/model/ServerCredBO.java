@@ -27,7 +27,7 @@ public class ServerCredBO {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private Integer id;
+	private Long id;
 	private String domain;
 	private String username;
 	private String password;
@@ -49,11 +49,11 @@ public class ServerCredBO {
 	@Column(name = "created_by")
 	private Integer createdBy;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

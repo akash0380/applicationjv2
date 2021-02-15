@@ -74,7 +74,7 @@ public class UsersBO {
 	private FoodTypeBO foodtype;
 	
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE, mappedBy = "userbo")
-	private UserToken jwtToken;
+	private UsersToken jwtToken;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "role_id" , nullable=false)
@@ -152,11 +152,11 @@ public class UsersBO {
 		this.foodtype = foodtype;
 	}
 
-	public UserToken getJwtToken() {
+	public UsersToken getJwtToken() {
 		return jwtToken;
 	}
 
-	public void setJwtToken(UserToken jwtToken) {
+	public void setJwtToken(UsersToken jwtToken) {
 		this.jwtToken = jwtToken;
 	}
 

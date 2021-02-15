@@ -36,7 +36,6 @@ public class UsersRestController {
 	@Autowired
 	UsersService usersservice;
 	
-
 	@PostMapping("/list")
 	public ResponseEntity<?> getActiveUsers(@RequestHeader(value = "authKey") String authKey, @RequestBody Request request) throws Exception {
 		List<UsersBO> list = usersservice.getActiveUsers(request);

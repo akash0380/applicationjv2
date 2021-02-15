@@ -20,7 +20,7 @@ public class FoodTypeBO{
 	@Id
 	@Column(name = "food_type_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer food_type_id;
+	private Long food_type_id;
 	
 	@Column(name="name")
 	private String name;
@@ -32,11 +32,11 @@ public class FoodTypeBO{
 	@JoinColumn(name = "type_id", referencedColumnName = "food_type_id", insertable = false, updatable = false, nullable = true)
 	private List<FoodBO> food;
 
-	public Integer getFood_type_id() {
+	public Long getFood_type_id() {
 		return food_type_id;
 	}
 
-	public void setFood_type_id(Integer food_type_id) {
+	public void setFood_type_id(Long food_type_id) {
 		this.food_type_id = food_type_id;
 	}
 

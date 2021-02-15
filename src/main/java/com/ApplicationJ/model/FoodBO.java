@@ -14,7 +14,7 @@ public class FoodBO{
 	@Id
 	@Column(name = "food_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer food_id;
+	private Long food_id;
 	
 	@Column(name="name")
 	private String name;
@@ -25,19 +25,11 @@ public class FoodBO{
 	@Column(name="status")
 	private boolean status;
 	
-//	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//	@JoinColumn(name = "food_type_id" , nullable=false, insertable=false, updatable=false)
-//	private FoodTypeBO food_type;
-	
 	@Column(name = "type_id")
-	private Integer type_id;
+	private Long type_id;
 
-	public Integer getFood_id() {
+	public Long getFood_id() {
 		return food_id;
-	}
-
-	public void setFood_id(Integer food_id) {
-		this.food_id = food_id;
 	}
 
 	public String getName() {
@@ -64,12 +56,16 @@ public class FoodBO{
 		this.status = status;
 	}
 
-	public Integer getType_id() {
+	public Long getType_id() {
 		return type_id;
 	}
 
-	public void setType_id(Integer type_id) {
+	public void setType_id(Long type_id) {
 		this.type_id = type_id;
+	}
+
+	public void setFood_id(Long food_id) {
+		this.food_id = food_id;
 	}
 	
 }

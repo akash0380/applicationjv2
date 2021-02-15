@@ -13,8 +13,8 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "user_token")
-public class UserToken {
+@Table(name = "users_token")
+public class UsersToken {
 
 	@Id()
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,9 +29,9 @@ public class UserToken {
 	@JoinColumn(name = "userId", nullable = false, unique = true)
 	private UsersBO userbo;
 
-	public UserToken() {}
+	public UsersToken() {}
 
-	public UserToken(String token, UsersBO userbo) {
+	public UsersToken(String token, UsersBO userbo) {
 		super();
 		this.token = token;
 		this.userbo = userbo;

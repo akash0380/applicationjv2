@@ -11,7 +11,9 @@ public class ApplicationConstants {
 	public static final String propDev__application_name="application.name";
 	
 	//CoreConfig
-	public static final boolean application_security_flag=true;	//set false for angular dev
+	public static final boolean application_security_flag=true;	//set false if not passing token
+	public static final String mapKey="user";
+	public static final String appPackage="com.ApplicationJ";
 	public static final int expInHr = 24;
 	
 	//home controller

@@ -21,9 +21,6 @@ public class WelcomeController {
 
 	@Autowired
 	SupportUtility supportUtility;
-	
-	@Autowired
-	RestTemplate restTemplate;
 
 	@ResponseBody
 	@RequestMapping(value = "/checkactiveprofile", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

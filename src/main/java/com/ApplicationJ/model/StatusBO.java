@@ -14,7 +14,7 @@ public class StatusBO{
 	@Id
 	@Column(name = "status_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer status_id;
+	private Long status_id;
 	
 	@Column(name="name")
 	private String name;
@@ -22,11 +22,11 @@ public class StatusBO{
 	@Column(name="status")
 	private boolean status;
 
-	public Integer getStatus_id() {
+	public Long getStatus_id() {
 		return status_id;
 	}
 
-	public void setStatus_id(Integer status_id) {
+	public void setStatus_id(Long status_id) {
 		this.status_id = status_id;
 	}
 
