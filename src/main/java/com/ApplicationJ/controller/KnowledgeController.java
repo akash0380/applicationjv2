@@ -2,6 +2,7 @@ package com.ApplicationJ.controller;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +31,13 @@ public class KnowledgeController {
 	@Autowired
 	KnowledgeService knowledgeService;
 	
+	@Autowired
+	ModelMapper modelMapper;
+	
 	@PostMapping("/list")
-	public ResponseEntity<?> getKnowledgeList(@RequestHeader(value = "authKey") String authKey, @RequestBody Request request) throws Exception {
+	public ResponseEntity<?> getKnowledgeList(@RequestHeader(value = "authKey") String authKey, @RequestBody Request request) throws Exception {		
+		KnowledgeBO ko = modelMapper.map(request.getRequestPayLoad(), KnowledgeBO.class);
+		System.out.println(ko.getQus());
 		List<KnowledgeBO> list = knowledgeService.getKnowledgeList(request);
 		Response response = supportUtility.responseBuilder(ApplicationConstants.KNOWLEDGE001, list, "knowledge");
 		return new ResponseEntity<Response>(response, HttpStatus.OK);

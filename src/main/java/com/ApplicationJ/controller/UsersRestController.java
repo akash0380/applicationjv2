@@ -22,6 +22,7 @@ import com.ApplicationJ.model.FoodBO;
 import com.ApplicationJ.model.FoodTypeBO;
 import com.ApplicationJ.model.StatusBO;
 import com.ApplicationJ.model.UsersBO;
+import com.ApplicationJ.model.UsersToken;
 import com.ApplicationJ.service.UsersService;
 import com.ApplicationJ.utility.SupportUtility;
 
@@ -54,6 +55,12 @@ public class UsersRestController {
 	public ResponseEntity<?> addUser(@RequestBody UsersBO userbo) throws Exception {
 		userbo = usersservice.addUser(userbo);		
 		Response response = supportUtility.responseBuilder(ApplicationConstants.USR003, userbo, "users");
+		return new ResponseEntity<Response>(response, HttpStatus.CREATED);
+	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody UsersBO usersbo) throws Exception {
+		Response response = supportUtility.responseBuilder(ApplicationConstants.USR003, null, "users");
 		return new ResponseEntity<Response>(response, HttpStatus.CREATED);
 	}
 
