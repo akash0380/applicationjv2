@@ -35,22 +35,27 @@ public class UsersDaoImpl implements UsersDaoExt {
 		Root<UsersBO> entityRoot = criteriaQuery.from(UsersBO.class);// it is required
 		//wildcard string search starts
 		ArrayList<Predicate> searchFilter = new ArrayList<>();
-		if(request.getSearchString()!=null && !request.getSearchString().toString().equals("")) {
+		if(request.getSearchString()!=null && request.getSearchString().toString().trim().length() > 0
+				&& request.getSearchFieldName() != null && request.getSearchFieldName().trim().length() > 0) {
 			ArrayList<Predicate> searchFilterLocal = new ArrayList<>();
 			Path<String> p1 = entityRoot.get(request.getSearchFieldName().toString());
 			searchFilterLocal.add(criteriaBuilder.like(p1, "%" + request.getSearchString() + "%"));
 			searchFilter.add(criteriaBuilder.or(searchFilterLocal.toArray(new Predicate[searchFilterLocal.size()])));
 		}
-		criteriaQuery.where(searchFilter.toArray(new Predicate[searchFilter.size()]));
+		if (searchFilter.size() > 0) {
+			criteriaQuery.where(searchFilter.toArray(new Predicate[searchFilter.size()]));
+		}
 		//wildcard string search ends
 		//pagination and sorting starts
-		if(request.getSortOrder()!=null && !request.getSortOrder()) {
-			criteriaQuery.orderBy(criteriaBuilder.desc(entityRoot.get(request.getSortFieldName())));						
-		}else {
-			criteriaQuery.orderBy(criteriaBuilder.asc(entityRoot.get(request.getSortFieldName())));			
+		if (request.getSortFieldName() != null && request.getSortFieldName().trim().length() > 0) {
+			if(request.getSortOrder()!=null && !request.getSortOrder()) {
+				criteriaQuery.orderBy(criteriaBuilder.desc(entityRoot.get(request.getSortFieldName())));
+			}else {
+				criteriaQuery.orderBy(criteriaBuilder.asc(entityRoot.get(request.getSortFieldName())));
+			}
 		}
 		TypedQuery<UsersBO> query= entityManager.createQuery(criteriaQuery);
-		if (request.getPageNo() != 0 && request.getPageSize() > 0) {
+		if (request.getPageNo() != null && request.getPageSize() != null && request.getPageNo() != 0 && request.getPageSize() > 0) {
 			query.setFirstResult((request.getPageNo() - 1) * request.getPageSize());
 			query.setMaxResults(request.getPageSize());
 		}
