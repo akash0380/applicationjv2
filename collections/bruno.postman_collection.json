@@ -1,0 +1,135 @@
+{
+  "info": {
+    "name": "bruno",
+    "_postman_id": "bruno-collection-1",
+    "description": "Auto-generated Postman v2.1 collection for ApplicationJ",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Welcome - Check Active Profile",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "authKey", "value": "{{authKey}}", "type": "text" }
+        ],
+        "url": { "raw": "{{baseUrl}}/welcome/checkactiveprofile", "host": ["{{baseUrl}}"], "path": ["welcome","checkactiveprofile"] }
+      }
+    },
+    {
+      "name": "Users - List",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "authKey", "value": "{{authKey}}", "type": "text" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pageNo\": 1,\n  \"pageSize\": 10,\n  \"requestPayLoad\": null\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/users/list", "host": ["{{baseUrl}}"], "path": ["users","list"] }
+      }
+    },
+    {
+      "name": "Users - Get by Id",
+      "request": {
+        "method": "GET",
+        "header": [ { "key": "authKey", "value": "{{authKey}}", "type": "text" } ],
+        "url": { "raw": "{{baseUrl}}/users/{{id}}", "host": ["{{baseUrl}}"], "path": ["users","{{id}}"], "variable": [{"key":"id","value":"1"}] }
+      }
+    },
+    {
+      "name": "Users - Add",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n   \"username\":\"akash\",\n   \"email\":\"akash@gmail.com\",\n   \"name\":\"akash\",\n   \"password\":\"akash\",\n   \"foodtype\":{\n      \"food\":[\n         {\n            \"description\":\"MixVeg for dinner\",\n            \"food_id\":1,\n            \"name\":\"MixVeg\",\n            \"status\":true,\n            \"type_id\":1\n         }\n      ],\n      \"food_type_id\":1,\n      \"name\":\"Veg\",\n      \"status\":true\n   },\n   \"status\":{\n      \"status_id\":1,\n      \"name\":\"Active\",\n      \"status\":true\n   },\n   \"role\":{\n      \"role_id\":1,\n      \"name\":\"Admin\",\n      \"status\":true\n   }\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/users/add", "host": ["{{baseUrl}}"], "path": ["users","add"] }
+      }
+    },
+    {
+      "name": "Users - Login",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"akash\",\n  \"password\": \"akash\"\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/users/login", "host": ["{{baseUrl}}"], "path": ["users","login"] }
+      }
+    },
+    {
+      "name": "Users - Update",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "authKey", "value": "{{authKey}}", "type": "text" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"requestPayLoad\": {\n    \"userId\": 1,\n    \"name\": \"akash-updated\"\n  }\n}"
+        },
+        "url": { "raw": "{{baseUrl}}/users/update", "host": ["{{baseUrl}}"], "path": ["users","update"] }
+      }
+    },
+    {
+      "name": "Users - Status List",
+      "request": { "method": "GET", "header": [ { "key": "authKey", "value": "{{authKey}}", "type": "text" } ], "url": { "raw": "{{baseUrl}}/users/statusList", "host": ["{{baseUrl}}"], "path": ["users","statusList"] } }
+    },
+    {
+      "name": "Users - Food Type List",
+      "request": { "method": "GET", "header": [ { "key": "authKey", "value": "{{authKey}}", "type": "text" } ], "url": { "raw": "{{baseUrl}}/users/foodTypeList", "host": ["{{baseUrl}}"], "path": ["users","foodTypeList"] } }
+    },
+    {
+      "name": "Users - Food List",
+      "request": { "method": "GET", "header": [ { "key": "authKey", "value": "{{authKey}}", "type": "text" } ], "url": { "raw": "{{baseUrl}}/users/foodList", "host": ["{{baseUrl}}"], "path": ["users","foodList"] } }
+    },
+    {
+      "name": "Users - Active Name & Email",
+      "request": { "method": "GET", "header": [ { "key": "authKey", "value": "{{authKey}}", "type": "text" } ], "url": { "raw": "{{baseUrl}}/users/activeUsersNameEmail", "host": ["{{baseUrl}}"], "path": ["users","activeUsersNameEmail"] } }
+    },
+    {
+      "name": "Users - Test GroupBy",
+      "request": { "method": "GET", "header": [ { "key": "authKey", "value": "{{authKey}}", "type": "text" } ], "url": { "raw": "{{baseUrl}}/users/testGroupBy", "host": ["{{baseUrl}}"], "path": ["users","testGroupBy"] } }
+    },
+    {
+      "name": "Knowledge - List",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" }, { "key": "authKey", "value": "{{authKey}}", "type": "text" } ],
+        "body": { "mode": "raw", "raw": "{\n  \"requestPayLoad\": { \"qus\": \"example query\" }\n}" },
+        "url": { "raw": "{{baseUrl}}/knowledge/list", "host": ["{{baseUrl}}"], "path": ["knowledge","list"] }
+      }
+    },
+    {
+      "name": "Knowledge - Add",
+      "request": { "method": "POST", "header": [ { "key": "Content-Type", "value": "application/json" }, { "key": "authKey", "value": "{{authKey}}", "type": "text" } ], "body": { "mode": "raw", "raw": "{\n  \"requestPayLoad\": { \"qus\": \"What is Postman?\", \"ans\": \"A tool for API testing\" }\n}" }, "url": { "raw": "{{baseUrl}}/knowledge/add", "host": ["{{baseUrl}}"], "path": ["knowledge","add"] } }
+    },
+    {
+      "name": "ServerCred - List",
+      "request": { "method": "POST", "header": [ { "key": "Content-Type", "value": "application/json" }, { "key": "authKey", "value": "{{authKey}}", "type": "text" } ], "body": { "mode": "raw", "raw": "{\n  \"pageNo\":1,\n  \"pageSize\":10\n}" }, "url": { "raw": "{{baseUrl}}/servercred/list", "host": ["{{baseUrl}}"], "path": ["servercred","list"] } }
+    },
+    {
+      "name": "ServerCred - Get by Id",
+      "request": { "method": "GET", "header": [ { "key": "authKey", "value": "{{authKey}}", "type": "text" } ], "url": { "raw": "{{baseUrl}}/servercred/{{id}}", "host": ["{{baseUrl}}"], "path": ["servercred","{{id}}"], "variable": [{"key":"id","value":"1"}] } }
+    },
+    {
+      "name": "ServerCred - Add",
+      "request": { "method": "POST", "header": [ { "key": "Content-Type", "value": "application/json" }, { "key": "authKey", "value": "{{authKey}}", "type": "text" } ], "body": { "mode": "raw", "raw": "{\n  \"requestPayLoad\": { \"name\": \"server1\", \"url\": \"https://example.com\" }\n}" }, "url": { "raw": "{{baseUrl}}/servercred/add", "host": ["{{baseUrl}}"], "path": ["servercred","add"] } }
+    },
+    {
+      "name": "ServerCred - Update",
+      "request": { "method": "PUT", "header": [ { "key": "Content-Type", "value": "application/json" }, { "key": "authKey", "value": "{{authKey}}", "type": "text" } ], "body": { "mode": "raw", "raw": "{\n  \"requestPayLoad\": { \"id\":1, \"name\": \"server1-updated\" }\n}" }, "url": { "raw": "{{baseUrl}}/servercred/update", "host": ["{{baseUrl}}"], "path": ["servercred","update"] } }
+    },
+    {
+      "name": "ServerCred - Delete",
+      "request": { "method": "DELETE", "header": [ { "key": "authKey", "value": "{{authKey}}", "type": "text" } ], "url": { "raw": "{{baseUrl}}/servercred/delete/{{id}}", "host": ["{{baseUrl}}"], "path": ["servercred","delete","{{id}}"], "variable": [{"key":"id","value":"1"}] } }
+    }
+  ]
+}
