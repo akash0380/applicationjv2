@@ -1,6 +1,7 @@
 package com.ApplicationJ.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,10 +35,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements U
 	@Autowired
 	SupportUtility supportUtility;
 
+	@Value("${application_security_flag}")
+	private boolean application_security_flag;
+
 	private String[] pathArray = null;
 
 	public WebSecurityConfig() {
-		if (ApplicationConstants.application_security_flag) {
+		if (application_security_flag) {
 			pathArray = new String[] { "/auth/token", "/welcome/checkactiveprofile", "/users/add", "/users/login", "/swagger-ui.html", "/webjars/**",
 					"/v2/**", "/swagger-resources/**" };
 		} else {
