@@ -11,11 +11,11 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 import javax.crypto.spec.SecretKeySpec;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.bind.DatatypeConverter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -74,8 +74,8 @@ public class SecurityFilter extends OncePerRequestFilter {
 	
 	public UsersBO getUserFromToken(String accessToken) {
 		UsersBO user = null;
-		Claims claims = Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(secret))
-				.parseClaimsJws(accessToken).getBody();
+		Claims claims = Jwts.parser().setSigningKey(Base64.getDecoder().decode(secret))
+			.parseClaimsJws(accessToken).getBody();
 		if (claims.containsKey(ApplicationConstants.mapKey)) {
 			ObjectMapper mapper = new ObjectMapper();
 			UsersBO userTmp = mapper.convertValue(claims.get(ApplicationConstants.mapKey, LinkedHashMap.class), UsersBO.class);
@@ -92,7 +92,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 		long nowMillis = System.currentTimeMillis();
 		Date now = new Date(nowMillis);
 		Date exp = new Date(now.getTime() + TimeUnit.HOURS.toMillis(ApplicationConstants.expInHr));
-		byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(secret);
+		byte[] apiKeySecretBytes = Base64.getDecoder().decode(secret);
 		Key signKey = new SecretKeySpec(apiKeySecretBytes, algorithm.getJcaName());
 
 		Map<String, Object> userDtoMap = new HashMap<>();

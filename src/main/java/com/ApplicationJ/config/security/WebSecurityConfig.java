@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -18,14 +18,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 import com.ApplicationJ.config.ApplicationConstants;
 import com.ApplicationJ.utility.SupportUtility;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig implements UserDetailsService {
 
 	@Autowired
@@ -64,16 +64,16 @@ public class WebSecurityConfig implements UserDetailsService {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.csrf().disable();
+		http.csrf(csrf -> csrf.disable());
 		if (pathArray != null) {
-			http.authorizeRequests()
-					.antMatchers(pathArray).permitAll()
-					.anyRequest().authenticated();
+			http.authorizeHttpRequests(authorize -> authorize
+					.requestMatchers(pathArray).permitAll()
+					.anyRequest().authenticated());
 		} else {
-			http.authorizeRequests().anyRequest().authenticated();
+			http.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated());
 		}
-		http.exceptionHandling().authenticationEntryPoint(tokenAuthEntryPoint).and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.exceptionHandling(ex -> ex.authenticationEntryPoint(tokenAuthEntryPoint))
+				.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 		http.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}
