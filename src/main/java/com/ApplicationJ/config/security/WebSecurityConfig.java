@@ -9,7 +9,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,6 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import javax.annotation.PostConstruct;
 
 import com.ApplicationJ.config.ApplicationConstants;
 import com.ApplicationJ.utility.SupportUtility;
@@ -24,7 +26,7 @@ import com.ApplicationJ.utility.SupportUtility;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements UserDetailsService {
+public class WebSecurityConfig implements UserDetailsService {
 
 	@Autowired
 	private TokenAuthEntryPoint tokenAuthEntryPoint;
@@ -40,7 +42,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements U
 
 	private String[] pathArray = null;
 
-	public WebSecurityConfig() {
+	@PostConstruct
+	public void init() {
 		if (application_security_flag) {
 			pathArray = new String[] { "/auth/token", "/welcome/checkactiveprofile", "/users/add", "/users/login", "/swagger-ui.html", "/webjars/**",
 					"/v2/**", "/swagger-resources/**" };
@@ -49,33 +52,39 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements U
 		}
 	}
 
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(new WebSecurityConfig()).passwordEncoder(passwordEncoder());
-	}
-
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
 	@Bean
-	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean();
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+		return authenticationConfiguration.getAuthenticationManager();
 	}
 
-	@Override
-	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.csrf().disable().authorizeRequests()
-		.antMatchers(pathArray).permitAll().anyRequest()
-		.authenticated().and().exceptionHandling().authenticationEntryPoint(tokenAuthEntryPoint).and()
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		httpSecurity.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http.csrf().disable();
+		if (pathArray != null) {
+			http.authorizeRequests()
+					.antMatchers(pathArray).permitAll()
+					.anyRequest().authenticated();
+		} else {
+			http.authorizeRequests().anyRequest().authenticated();
+		}
+		http.exceptionHandling().authenticationEntryPoint(tokenAuthEntryPoint).and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
+		return http.build();
+	}
+
+	@Bean
+	public UserDetailsService userDetailsService() {
+		return this;
 	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return null;
+		throw new UsernameNotFoundException("UserDetailsService not implemented");
 	}
 }
