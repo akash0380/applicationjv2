@@ -22,7 +22,6 @@ import com.ApplicationJ.model.FoodBO;
 import com.ApplicationJ.model.FoodTypeBO;
 import com.ApplicationJ.model.StatusBO;
 import com.ApplicationJ.model.UsersBO;
-import com.ApplicationJ.model.UsersToken;
 import com.ApplicationJ.service.UsersService;
 import com.ApplicationJ.utility.SupportUtility;
 
